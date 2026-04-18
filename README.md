@@ -1,50 +1,33 @@
-# CrumbltLauncher
+# CrumbltLauncher (Rust Edition)
 
-Tiny auto-updating launcher for CrumbltClient. Downloads the latest release
-from GitHub, extracts it to `%APPDATA%\Crumblt\`, and launches `CrumbltClient.exe`.
+Tiny auto-updating launcher for CrumbltClient. Downloads the latest release from GitHub, extracts it to `%APPDATA%\Crumblt\`, and launches `CrumbltClient.exe`.
 
 ## How it works
 
-1. Fetches `version.txt` from the latest GitHub release
-2. Compares against `%APPDATA%\Crumblt\version.txt`
-3. If outdated (or client missing), downloads `CrumbltClient.zip` and extracts it
-4. Launches `CrumbltClient.exe`, passing through any URI args (e.g. `crumblt://play/...`)
+1. Fetches `Branches.txt` to get available channels
+2. Downloads client from selected branch
+3. Extracts to `%APPDATA%\Crumblt\`
+4. Launches `CrumbltClient.exe`, passing through any URI args
 
 ## Build
 
-From an x64 Native Tools Command Prompt for VS 2026:
+Install Rust from https://rustup.rs/, then:
 
-```bat
-cd Crumblt_Launcher
-cmake -B build -S . -G "Visual Studio 18 2026" -A x64
-cmake --build build --config Release
+```bash
+cargo build --release
 ```
 
-Output: `build\Release\CrumbltLauncher.exe`
-
-No external dependencies — uses only Win32 APIs.
+Output: `target\release\crumblt-launcher.exe`
 
 ## Release workflow
 
-For every new CrumbltClient release on GitHub:
+For every new release:
 
-1. Build and zip: `CrumbltClient.exe` + all required DLLs flat in zip root
-2. Create a file `version.txt` containing just the version string, e.g. `V_0.7`
-3. Attach both `CrumbltClient.zip` and `version.txt` to the GitHub release
-4. Make sure the release is tagged as **latest**
-
-The launcher always downloads from:
-- `https://github.com/ORB-I/Crumblt_Client/releases/latest/download/version.txt`
-- `https://github.com/ORB-I/Crumblt_Client/releases/latest/download/CrumbltClient.zip`
+1. Build: `cargo build --release`
+2. Rename: `ren target\release\crumblt-launcher.exe CrumbltLauncher.exe`
+3. Attach `CrumbltLauncher.exe` to GitHub release
+4. Also attach a `version.txt` with version number (e.g., `1.0.0`)
 
 ## Register crumblt:// protocol
 
-The launcher should be registered for the `crumblt://` URI protocol instead of
-`CrumbltClient.exe`. Update `crumblt-install-protocol.bat` to point to
-`CrumbltLauncher.exe` so clicking Play on the website goes through the launcher.
-
-## UI
-
-- Borderless dark window, draggable
-- Blue/purple gradient progress bar
-- ESC to cancel
+Run the launcher once - it auto-registers the protocol via Windows Registry.
