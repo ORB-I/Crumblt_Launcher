@@ -1,4 +1,4 @@
 Launcher_Production: https://github.com/ORB-I/Crumblt_Launcher/releases/latest/download
 Launcher_Unstable: https://github.com/ORB-I/Crumblt_Launcher/releases/download/unstable
-Client_Production: https://github.com/ORB-I/Crumblt_Client/releases/latest/download
-Client_Unstable: https://github.com/ORB-I/Crumblt_Client/releases/download/unstable
+Client_Production: https://raw.githubusercontent.com/ORB-I/Crumblt_Client/main
+Client_Unstable: https://raw.githubusercontent.com/ORB-I/Crumblt_Client/unstable
